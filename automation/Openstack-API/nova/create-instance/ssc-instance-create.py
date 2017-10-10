@@ -27,7 +27,7 @@ sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
 print "user authorization completed."
 
-image = nova.images.find(name="ubuntu 16.04")
+image = nova.images.find(name="Ubuntu 16.04")
 flavor = nova.flavors.find(name=flavor)
 
 if private_net != None:
