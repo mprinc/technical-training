@@ -9,7 +9,7 @@ import keystoneclient.v3.client as ksclient
 from keystoneauth1 import loading
 from keystoneauth1 import session
 
-flavor = "m1.small" 
+flavor = "m1.small"
 private_net = None
 floating_ip_pool_name = None
 floating_ip = None
@@ -27,7 +27,7 @@ sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
 print "user authorization completed."
 
-image = nova.images.find(name="ubuntu 14.04")
+image = nova.images.find(name="ubuntu 16.04")
 flavor = nova.flavors.find(name=flavor)
 
 if private_net != None:
@@ -38,12 +38,14 @@ else:
 
 secgroup = nova.security_groups.find(name="default")
 secgroups = [secgroup.id]
+secgroup = nova.security_groups.find(name="sasha-ICMP-SSH-HTTP-security-group")
+secgroups = [secgroup.id]
 
 #floating_ip = nova.floating_ips.create(nova.floating_ip_pools.list()[0].name)
 
-if floating_ip_pool_name != None: 
+if floating_ip_pool_name != None:
     floating_ip = nova.floating_ips.create(floating_ip_pool_name)
-else: 
+else:
     sys.exit("public ip pool name not defined.")
 
 
@@ -61,9 +63,8 @@ while inst_status == 'BUILD':
 
 print "Instance: "+ instance.name +" is in " + inst_status + "state"
 
-if floating_ip != None: 
+if floating_ip != None:
     instance.add_floating_ip(floating_ip)
     print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", No floating IP attached"
 else:
-    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", Floating IP: " + floating_ip.ip 
-
+    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", Floating IP: " + floating_ip.ip
