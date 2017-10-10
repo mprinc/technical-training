@@ -9,10 +9,11 @@ import keystoneclient.v3.client as ksclient
 from keystoneauth1 import loading
 from keystoneauth1 import session
 
-flavor = "m1.small"
-private_net = None
-floating_ip_pool_name = None
-floating_ip = None
+flavor = "ssc.small"
+private_net = "SNIC 2017/13-51 Internal IPv4 Network"
+floating_ip_pool_name = "Public External IPv4 Network"
+floating_ip = "130.239.81.115"
+image_name = "Ubuntu 14.04 LTS (Trusty Tahr) - latest"
 
 loader = loading.get_plugin_loader('password')
 auth = loader.load_from_options(auth_url=env['OS_AUTH_URL'],
@@ -27,7 +28,7 @@ sess = session.Session(auth=auth)
 nova = client.Client('2.1', session=sess)
 print "user authorization completed."
 
-image = nova.images.find(name="Ubuntu 16.04")
+image = nova.images.find(name=image_name)
 flavor = nova.flavors.find(name=flavor)
 
 if private_net != None:
