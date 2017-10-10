@@ -12,8 +12,9 @@ from keystoneauth1 import session
 flavor = "ssc.small"
 private_net = "SNIC 2017/13-51 Internal IPv4 Network"
 floating_ip_pool_name = "Public External IPv4 Network"
-floating_ip = "130.239.81.115"
+floating_ip = None; # "130.239.81.115"
 image_name = "Ubuntu 14.04 LTS (Trusty Tahr) - latest"
+key_name = "mprinc-hpc2n-se"
 
 loader = loading.get_plugin_loader('password')
 auth = loader.load_from_options(auth_url=env['OS_AUTH_URL'],
@@ -51,7 +52,7 @@ else:
 
 
 print "Creating instance ... "
-instance = nova.servers.create(name="vm1", image=image, flavor=flavor, nics=nics,security_groups=secgroups)
+instance = nova.servers.create(name="vm1", image=image, flavor=flavor, nics=nics,security_groups=secgroups, key_name=key_name)
 inst_status = instance.status
 print "waiting for 10 seconds.. "
 time.sleep(10)
