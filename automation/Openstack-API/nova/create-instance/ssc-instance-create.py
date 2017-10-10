@@ -62,10 +62,10 @@ while inst_status == 'BUILD':
     instance = nova.servers.get(instance.id)
     inst_status = instance.status
 
-print "Instance: "+ instance.name +" is in " + inst_status + "state"
+print "Instance: "+ instance.name +" is in " + inst_status + " state"
 
 if floating_ip != None:
     instance.add_floating_ip(floating_ip)
-    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", No floating IP attached"
-else:
     print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", Floating IP: " + floating_ip.ip
+else:
+    print "Instance booted! Name: " + instance.name + " Status: " +instance.status+ ", No floating IP attached"
