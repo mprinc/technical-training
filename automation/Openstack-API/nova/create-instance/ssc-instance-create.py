@@ -46,7 +46,14 @@ secgroups = [secgroup.id]
 #floating_ip = nova.floating_ips.create(nova.floating_ip_pools.list()[0].name)
 
 if floating_ip_pool_name != None:
-    floating_ip = nova.floating_ips.create(floating_ip_pool_name)
+    # check if there is non-associated IP address first
+    floating_ip = None
+    for ip in nova.floating_ips.list():
+        if(not ip.instance_id):
+            floating_ip = ip;
+            break;
+    if(not floating_ip):
+        floating_ip = nova.floating_ips.create(floating_ip_pool_name)
 else:
     sys.exit("public ip pool name not defined.")
 
